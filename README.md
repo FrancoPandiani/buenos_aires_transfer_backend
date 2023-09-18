@@ -1,2 +1,2 @@
-Buenos Aires Transfer backend developed in Django Rest Framework 3.2.16
-=======================================================================
+Buenos Aires Transfer Web App developed in Django REST Framework and Next.js
+============================================================================
