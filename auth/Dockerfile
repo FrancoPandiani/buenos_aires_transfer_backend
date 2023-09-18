@@ -1,3 +1,4 @@
+
 # Servidor dedicado a el microservicio de autenticación con su versión de python, logs, directorio y requerimientos.
 FROM python:3.9
 ENV PYTHONUNBUFFERED 1
