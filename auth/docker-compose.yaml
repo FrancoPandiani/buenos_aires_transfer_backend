@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  # Servidor para la Django app
+  backend_auth:
+   container_name: bt_transfer_ms_auth
+   build: .
+   volumes:
+    - .:/app
+   ports:
+   - 8000:8000
+  
+  # Base de datos local (PostgreSQL)
+  db:
+   image: postgres
+   container_name: django_auth_api_postgresql
+   restart: always
+   environment:
+      POSTGRES_DB: bt_transfer_auth_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: holahola
+   ports:
+    - 5432:5432
+   volumes:
+      - .dbdata:/var/lib/postgresql
+
+  # Redis Cache
+  redis:
+    image: redis
+    container_name: django_auth_api_redis
+    ports:
+      - 6379:6379
+
+
+
+  
+
