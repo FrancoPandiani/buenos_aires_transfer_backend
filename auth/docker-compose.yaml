@@ -16,7 +16,7 @@ services:
    container_name: django_auth_api_postgresql
    restart: always
    environment:
-      POSTGRES_DB: bt_transfer_auth_db
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: holahola
    ports:

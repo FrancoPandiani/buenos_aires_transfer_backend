@@ -1,19 +1,19 @@
 from pathlib import Path
 import os
 import environ
-from datetime import timedelta
+#from datetime import timedelta
 
 # Ruta absoluta del directorio base del proyecto.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Declaración de las variables de ambiente secretas.
+
 env = environ.Env()
 environ.Env.read_env()
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
 
 DOMAIN = env('DOMAIN')
@@ -23,17 +23,19 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS_DEV')
 RENDER_EXTERNAL_HOSTNAME= os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 
 # URL especifico de render
+
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Permisos de comunicación con el frontend.
+
 CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST_DEV')
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS_DEV')
 
-#Agregado para definir este domain a la hora de enviar mensajes.
+# Agregado para definir este domain a la hora de enviar mensajes.
+
 SITE_ID=1
 
-# Application definition
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -94,20 +96,50 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 ASGI_APPLICATION = 'core.asgi.application'
 
+# BD sqlite default
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+""""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+"""
 
+# BD Config Auth Postgres
 
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD':'holahola',
+        'HOST':'db',
+        'PORT':'5432'
+    }
+}
+
+# Redis Config
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://django_auth_api_redis:6379',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+# Validacion de password externa
+
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -126,11 +158,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Lima'
 
 USE_I18N = True
 
@@ -140,11 +171,11 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
 # Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
