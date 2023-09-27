@@ -1,14 +1,12 @@
 from pathlib import Path
 import os
 import environ
-#from datetime import timedelta
+from datetime import timedelta
 
 # Ruta absoluta del directorio base del proyecto.
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Declaración de las variables de ambiente secretas.
-
 env = environ.Env()
 environ.Env.read_env()
 
@@ -23,17 +21,14 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS_DEV')
 RENDER_EXTERNAL_HOSTNAME= os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 
 # URL especifico de render
-
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Permisos de comunicación con el frontend.
-
 CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST_DEV')
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS_DEV')
 
 # Agregado para definir este domain a la hora de enviar mensajes.
-
 SITE_ID=1
 
 DJANGO_APPS = [
@@ -97,7 +92,6 @@ WSGI_APPLICATION = 'core.wsgi.application'
 ASGI_APPLICATION = 'core.asgi.application'
 
 # BD sqlite default
-
 """"
 DATABASES = {
     'default': {
@@ -108,7 +102,6 @@ DATABASES = {
 """
 
 # BD Config Auth Postgres
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -121,7 +114,6 @@ DATABASES = {
 }
 
 # Redis Config
-
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -133,7 +125,6 @@ CACHES = {
 }
 
 # Validacion de password externa
-
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",
@@ -158,7 +149,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-
 LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'America/Lima'
@@ -171,11 +161,124 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 # Default primary key field type
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+    ],
+     'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework.simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+# Authentication backends
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Simple JWT
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT', ),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=90),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=180),
+    'ROTATE_REFRESFH_TOKENS':True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_TOKEN_CLASSES': (
+        'rest_framework_simplejwt.tokens.AccessToken',
+    )
+}
+
+#Djoser
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+    'SEND_CONFIRMATION_EMAIL': True,
+    'SEND_ACTIVATION_EMAIL': True,
+    'SET_USERNAME_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_URL': 'auth/forgot_password_confirm/{uid}/{token}',
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
+    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'auth/activate/{uid}/{token}',
+    'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000/google', 'http://localhost:8000/facebook'],
+#    'SERIALIZERS': {
+#        'user_create': 'apps.user.serializers.UserSerializer',
+#        'user': 'apps.user.serializers.UserSerializer',
+#        'current_user': 'apps.user.serializers.UserSerializer',
+#        'user_delete': 'djoser.serializers.UserDeleteSerializer',
+#    },
+#    'TEMPLATES': {
+#        "activation": "email/activation.html",
+#        "confirmation": "email/confirmation.html",
+#        "password_reset": "email/password_reset.html",
+#        "password_changed_confirmation": "email/password_changed_confirmation.html",
+#        "username_changed_confirmation": "email/username_changed_confirmation.html",
+#        "username_reset": "email/username_reset.html",
+#    }, 
+}
+
+# Permite hacer post mas facil en Django.
+FILE_UPLOAD_PERMISSIONS = 0o640
+
+# Permite hacer debug
+EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
+
+if not DEBUG:
+    # CSRF_COOKIE_DOMAIN = os.environ.get('CSRF_COOKIE_DOMAIN_DEPLOY')
+    ALLOWED_HOSTS=env.list('ALLOWED_HOSTS_DEPLOY')
+    CORS_ORIGIN_WHITELIST =env.list('CORS_ORIGIN_WHITELIST_DEPLOY')
+    CSRF_TRUSTED_ORIGINS =env.list('CSRF_TRUSTED_ORIGINS_DEPLOY')
+
+    EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+    SECURE_SSL_REDIRECT = True
+
+    # SMTP.com configuration
+    EMAIL_HOST = os.environ.get('EMAIL_HOST')
+    EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+
+    # Your SMTP.com sender account credentials
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+    # Use TLS when connecting to the SMTP server
+    EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
+
+    # Default "from" address for sending emails
+    DEFAULT_FROM_EMAIL = 'BuenosAiresTransfer <noreply@.com>'
+
+# No funciona aws S3 sin esta config.
+AWS_QUERYSTRING_AUTH = False
+
+
+# AWS settings
+
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+AWS_DEFAULT_ACL = 'public-read'
+
+# s3 static settings
+STATIC_LOCATION = 'static'
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+
+# s3 public media settings
+PUBLIC_MEDIA_LOCATION = 'media'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
