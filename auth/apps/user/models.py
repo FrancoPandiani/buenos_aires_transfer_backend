@@ -55,6 +55,18 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     objects = UserAccountManager()
 
+    groups = models.ManyToManyField(
+        'auth.Group',
+        blank=True,
+        related_name='user_accounts_groups'
+    )
+
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        blank=True,
+        related_name='user_accounts_permissions'
+    )
+    
     # Login
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
