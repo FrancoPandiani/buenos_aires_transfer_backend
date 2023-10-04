@@ -1,7 +1,8 @@
 from pathlib import Path
 import os
-import environ
 from datetime import timedelta
+import environ
+
 
 # Ruta absoluta del directorio base del proyecto.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,7 +20,6 @@ DOMAIN = env('DOMAIN')
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS_DEV')
 
 RENDER_EXTERNAL_HOSTNAME= os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-
 # URL especifico de render
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
@@ -31,6 +31,7 @@ CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS_DEV')
 # Agregado para definir este domain a la hora de enviar mensajes.
 SITE_ID=1
 
+# Application definition
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,7 +44,7 @@ DJANGO_APPS = [
 
 PROJECT_APPS = [
     'apps.user',
-    'apps.user_profile'
+    'apps.user_profile',
 ]
 
 THIRD_PARTY_APPS = [
@@ -198,6 +199,8 @@ SIMPLE_JWT = {
         'rest_framework_simplejwt.tokens.AccessToken',
     )
 }
+
+AUTH_USER_MODEL = 'user.UserAccount'
 
 #Djoser
 DJOSER = {

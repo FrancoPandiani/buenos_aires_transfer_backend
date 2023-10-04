@@ -1,7 +1,8 @@
+import json,uuid,re
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from slugify import slugify
-import json,uuid,re
+
 
 class UserAccountManager(BaseUserManager):
 
@@ -92,8 +93,6 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
             counter += 1
         super().save(*args, **kwargs)
 
-    
-
-
-
-
+    def __str__(self):
+        email_str = "".join(self.email)
+        return email_str
