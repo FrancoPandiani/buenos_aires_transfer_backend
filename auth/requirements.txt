@@ -1,9 +1,7 @@
-
 Django==3.2.16
 djangorestframework==3.14.0
-djangorestframework-simplejwt==4.8.0
 djangorestframework-api-response==0.0.30
-
+djangorestframework-simplejwt==4.8.0
 djoser==2.1.0
 psycopg2==2.9.4
 PyJWT==2.5.0

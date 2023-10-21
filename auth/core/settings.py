@@ -105,14 +105,14 @@ DATABASES = {
 }
 """
 
-# BD Config Auth Postgres
+# BD Config Auth Postgres | Cambiar Host por "db"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD':'holahola',
-        'HOST':'db',
+        'HOST':'localhost',
         'PORT':'5432'
     }
 }
