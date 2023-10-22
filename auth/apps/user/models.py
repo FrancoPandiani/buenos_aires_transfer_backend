@@ -16,7 +16,7 @@ class UserAccountManager(BaseUserManager):
             username = re.sub(pattern_special_characters, '', username)
             return slugify(username)
     
-        if not email():
+        if not email:
             raise ValueError('User must have a email address')
         
         # Lower case al email
