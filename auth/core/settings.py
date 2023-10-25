@@ -173,11 +173,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES':[
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
     ],
-     'DEFAULT_AUTHENTICATION_CLASSES':(
-        'rest_framework.simplejwt.authentication.JWTAuthentication',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 
@@ -218,12 +218,12 @@ DJOSER = {
     'ACTIVATION_URL': 'auth/activate/{uid}/{token}',
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000/google', 'http://localhost:8000/facebook'],
-#    'SERIALIZERS': {
-#        'user_create': 'apps.user.serializers.UserSerializer',
-#        'user': 'apps.user.serializers.UserSerializer',
-#        'current_user': 'apps.user.serializers.UserSerializer',
-#        'user_delete': 'djoser.serializers.UserDeleteSerializer',
-#    },
+    'SERIALIZERS': {
+        'user_create': 'apps.user.serializers.UserSerializer',
+        'user': 'apps.user.serializers.UserSerializer',
+        'current_user': 'apps.user.serializers.UserSerializer',
+        'user_delete': 'djoser.serializers.UserDeleteSerializer',      
+    },
 #    'TEMPLATES': {
 #        "activation": "email/activation.html",
 #        "confirmation": "email/confirmation.html",
