@@ -224,14 +224,14 @@ DJOSER = {
         'current_user': 'apps.user.serializers.UserSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',      
     },
-#    'TEMPLATES': {
-#        "activation": "email/activation.html",
-#        "confirmation": "email/confirmation.html",
-#        "password_reset": "email/password_reset.html",
-#        "password_changed_confirmation": "email/password_changed_confirmation.html",
-#        "username_changed_confirmation": "email/username_changed_confirmation.html",
-#        "username_reset": "email/username_reset.html",
-#    }, 
+    'TEMPLATES': {
+        "activation": "email/activation.html",
+        "confirmation": "email/confirmation.html",
+        "password_reset": "email/password_reset.html",
+        "password_changed_confirmation": "email/password_changed_confirmation.html",
+        "username_changed_confirmation": "email/username_changed_confirmation.html",
+        "username_reset": "email/username_reset.html",
+    }
 }
 
 # Permite hacer post mas facil en Django.
