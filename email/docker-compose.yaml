@@ -1,0 +1,42 @@
+
+version: '3.8'
+services:
+  # Servidor para la Django app
+  backend_email:
+   container_name: bt_transfer_ms_email
+   build: .
+   command: >
+      sh -c "python manage.py runserver 0.0.0.0:8002"
+   volumes:
+    - .:/app
+   ports:
+    - 8002:8002
+   depends_on:
+    - db_email
+    - redis
+  
+  # Base de datos local (PostgreSQL)
+  db_email:
+   image: postgres
+   container_name: django_email_api_postgresql
+   restart: always
+   environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: holahola
+   ports:
+    - 5434:5432
+   volumes:
+      - .dbdata:/var/lib/postgresql
+
+  # Redis Cache
+  redis:
+    image: redis
+    container_name: django_email_api_redis
+    ports:
+      - 6381:6379
+
+
+
+  
+
