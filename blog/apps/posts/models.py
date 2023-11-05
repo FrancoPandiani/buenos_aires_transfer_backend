@@ -35,6 +35,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
+    # Orientado al CEO.
     keywords = models.CharField(max_length=255, blank=True, null=True)
     slug =  models.SlugField(unique=True, default=uuid.uuid4)
 
@@ -44,7 +45,7 @@ class Post(models.Model):
     language = models.CharField(max_length=50, blank=True, null=True)
     level = models.CharField(max_length=50, blank=True, null=True)
 
-    """
+    
     views = models.IntegerField(default=0, blank=True)
     clicks = models.IntegerField(default=0, blank=True, null=True)
     impressions = models.IntegerField(default=0, blank=True, null=True)
@@ -78,7 +79,7 @@ class Post(models.Model):
 
     class Meta:
         ordering = ('created_at',)
-    """
+    
     def __str__(self):
         return str(self.title)
     """

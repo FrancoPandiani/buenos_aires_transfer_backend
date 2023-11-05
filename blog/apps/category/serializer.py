@@ -10,7 +10,5 @@ class CategorySerializer(serializers.ModelSerializer):
             'title',
             'description',
             'slug',
-            'views',
-            'students',
-            'type'
+            'views'
         ]
