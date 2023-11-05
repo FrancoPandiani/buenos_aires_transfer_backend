@@ -7,7 +7,6 @@ from rest_framework import permissions
 from .models import Category, ViewCount
 
 
-
 class PrimaryCategoriesView(StandardAPIView):
     def get(self, request, format=None):
         primary_categories = Category.objects.filter(parent=None)
