@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Author, Post, ViewCount, Rate
-from apps.category.serializer import CategorySerializer  # Import CategorySerializer
-
+from apps.category.serializer import CategorySerializer
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,9 +18,9 @@ class PostSerializer(serializers.ModelSerializer):
     author = AuthorSerializer()
     rating=serializers.IntegerField(source='get_rating')
     rating_number=serializers.IntegerField(source='get_no_rating')
-    category = CategorySerializer()  # Use CategorySerializer for category field
-    sub_category = CategorySerializer()  # Use CategorySerializer for sub_category field
-    topic = CategorySerializer()  # Use CategorySerializer for topic field
+    category = CategorySerializer()
+    sub_category = CategorySerializer()
+    topic = CategorySerializer()
 
     class Meta:
         model = Post
