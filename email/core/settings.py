@@ -27,7 +27,6 @@ if RENDER_EXTERNAL_HOSTNAME:
 CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST_DEV')
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS_DEV')
 
-# Application definition
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +38,7 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
+    'apps.contacts'
 ]
 
 THIRD_PARTY_APPS = [
@@ -83,16 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 ASGI_APPLICATION = 'core.asgi.application'
-
-# BD sqlite default
-""""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-"""
 
 # BD Config Auth Postgres | Cambiar Host por "db"
 DATABASES = {
@@ -148,7 +138,7 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
-# Default primary key field type
+# Default primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
@@ -172,14 +162,32 @@ SIMPLE_JWT = {
     )
 }
 
-# Permite hacer post mas facil en Django.
+# Permite hacer post de manera mas simple.
 FILE_UPLOAD_PERMISSIONS = 0o640
+
+EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
 
 if not DEBUG:
     # CSRF_COOKIE_DOMAIN = os.environ.get('CSRF_COOKIE_DOMAIN_DEPLOY')
     ALLOWED_HOSTS=env.list('ALLOWED_HOSTS_DEPLOY')
     CORS_ORIGIN_WHITELIST =env.list('CORS_ORIGIN_WHITELIST_DEPLOY')
     CSRF_TRUSTED_ORIGINS =env.list('CSRF_TRUSTED_ORIGINS_DEPLOY')
+    EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+    SECURE_SSL_REDIRECT = True
+
+    # SMTP.com configuration
+    EMAIL_HOST = os.environ.get('EMAIL_HOST')
+    EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+
+    # Your SMTP.com sender account credentials
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+    # Use TLS when connecting to the SMTP server
+    EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
+
+    # Dirección de email por default
+    DEFAULT_FROM_EMAIL = 'BuenosAiresTransfer <noreply@buenosairestransfer.com>'
 
 # No funciona aws S3 sin esta config.
 AWS_QUERYSTRING_AUTH = False
