@@ -106,7 +106,7 @@ DATABASES = {
 }
 """
 
-# BD Config Auth Postgres | Cambiar Host por "db"
+# BD Config Auth Postgres | Cambiar Host por "db_auth" para docker
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

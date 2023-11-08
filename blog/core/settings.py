@@ -95,11 +95,11 @@ DATABASES = {
 }
 """
 
-# BD Config Auth Postgres | Cambiar Host por "db"
+# BD Config Blog Postgres | Cambiar Host por "db_blog" para docker.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'blog',
         'USER': 'postgres',
         'PASSWORD':'holahola',
         'HOST':'localhost',
