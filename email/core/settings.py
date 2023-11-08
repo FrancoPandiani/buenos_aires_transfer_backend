@@ -84,11 +84,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 ASGI_APPLICATION = 'core.asgi.application'
 
-# BD Config Auth Postgres | Cambiar Host por "db"
+# BD Config Email Postgres | Cambiar Host por "db_email" para docker
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'email',
         'USER': 'postgres',
         'PASSWORD':'holahola',
         'HOST':'localhost',
