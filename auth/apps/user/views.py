@@ -1,11 +1,11 @@
-from rest_framework_api.views import StandardAPIView
 import json, uuid
+from django.db import models
+from rest_framework_api.views import StandardAPIView
 from rest_framework import serializers
 from rest_framework import permissions
 from .serializers import UserSerializer
 from apps.user_profile.serializer import UserProfileSerializer
 from apps.user_profile.models import Profile
-from django.db import models
 from django.core.cache import cache
 
 from django.contrib.auth import get_user_model

@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from djoser.signals import  user_registered
+from djoser.signals import user_registered
 
 User = settings.AUTH_USER_MODEL
 

@@ -1,8 +1,8 @@
 from rest_framework_api.views import StandardAPIView
 from rest_framework import permissions, status
 from django.core.mail import send_mail
-from .models import Contact
 from .serializer import ContactSerializer
+
 
 class ContactCreateView(StandardAPIView):
     def post(self, request, format=None):
