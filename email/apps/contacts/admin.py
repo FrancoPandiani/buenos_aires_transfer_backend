@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Contact
 
+
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'subject', 'phone', 'contact_date')
     search_fields = ('name', 'email', 'subject', 'phone')
